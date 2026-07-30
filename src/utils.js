@@ -12,7 +12,10 @@ export const validateUrl = (str) => {
     const parsed = new URL(url);
     if (!parsed.hostname.includes(".")) return null;
 
-    return parsed;
+    const out = parsed.toString();
+    if (out.length > 2048) return null;
+
+    return out;
   } catch {
     return null;
   }
