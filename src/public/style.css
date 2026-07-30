@@ -2,8 +2,64 @@
   box-sizing: border-box;
   margin: 0;
   padding: 0;
+  border: none;
+  background: none;
 }
 
 body {
   font-family: ui-monospace, SFMono-Regular, Menlo, Consolas, monospace;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 30px;
+  margin-top: 100px;
+  background: #1e1c1d;
+  color: #e2e1dd;
+}
+
+.title {
+  text-align: center;
+}
+
+.title h1 {
+  font-size: 48px;
+}
+
+.title span {
+  font-size: 32px;
+}
+
+form {
+  display: flex;
+  gap: 15px;
+}
+
+input {
+  color: inherit;
+  padding: 12px;
+  font-size: 20px;
+  border: 1px solid #494d54;
+  border-radius: 10px;
+  width: 400px;
+  outline: none;
+}
+
+button {
+  color: inherit;
+  padding: 12px;
+  font-size: 20px;
+  border: 1px solid #494d54;
+  border-radius: 10px;
+}
+
+button:hover {
+  background: rgb(255 255 255 / 10%);
+}
+
+a {
+  color: #e2e1dd;
+}
+
+.error {
+  color: #ff3333;
 }

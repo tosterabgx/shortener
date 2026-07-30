@@ -1,9 +1,23 @@
 <!doctype html>
-<html lang="en">
+<html lang="ru">
   <head>
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>URL shortener</title>
+    <link rel="stylesheet" href="style.css" />
+    <script src="script.js" defer></script>
   </head>
-  <body></body>
+  <body>
+    <div class="title">
+      <h1>Make your urls shorter!</h1>
+      <span>(almost)</span>
+    </div>
+
+    <form method="post" id="sender">
+      <input type="text" name="url" placeholder="https://example.com/" required />
+      <button type="submit">shorten!</button>
+    </form>
+
+    <div id="output"></div>
+  </body>
 </html>
