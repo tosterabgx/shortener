@@ -21,7 +21,7 @@ export const connectDB = async () => {
 
 export const insertLink = async (data) => {
   const collection = client.db().collection("links");
-  const doc = { ...data, createdAt: new Date() };
+  const doc = { ...data, clicks: 0, createdAt: new Date() };
   try {
     await collection.insertOne(doc);
     return doc;
@@ -35,4 +35,9 @@ export const getLink = async (code) => {
   const collection = client.db().collection("links");
   const link = await collection.findOne({ code });
   return link;
+};
+
+export const addClick = async (id) => {
+  const collection = client.db().collection("links");
+  await collection.findOneAndUpdate({ _id: id }, { $inc: { clicks: 1 } });
 };

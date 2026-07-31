@@ -2,7 +2,7 @@ import express from "express";
 import { rateLimit } from "express-rate-limit";
 import { customAlphabet } from "nanoid";
 import path from "path";
-import { connectDB, getLink, insertLink } from "./db.js";
+import { connectDB, getLink, insertLink, addClick } from "./db.js";
 import { validateUrl } from "./utils.js";
 
 const alphabet = "0123456789ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz";
@@ -35,7 +35,7 @@ app.post("/api/shorten", async (req, res) => {
 
   const valid = validateUrl(url);
   if (!valid) {
-    return res.status(400).json({ message: "Incorrect URL" });
+    return res.status(400).json({ message: "Invalid URL" });
   }
 
   let code, result;
@@ -60,6 +60,7 @@ app.get("/:code", async (req, res) => {
   }
 
   res.redirect(link.url);
+  await addClick(link._id);
 });
 
 await connectDB();
