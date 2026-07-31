@@ -39,5 +39,5 @@ export const getLink = async (code) => {
 
 export const addClick = async (id) => {
   const collection = client.db().collection("links");
-  await collection.findOneAndUpdate({ _id: id }, { $inc: { clicks: 1 } });
+  await collection.updateOne({ _id: id }, { $inc: { clicks: 1 } });
 };
