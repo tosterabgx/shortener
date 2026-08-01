@@ -24,6 +24,10 @@ app.get("/:code", limiter, getLink);
 app.get("/manage/:code", limiter, manageLink);
 app.delete("/manage/:code", limiter, deleteLink);
 
+app.use((req, res, _) => {
+  res.status(404).render("notfound");
+});
+
 await connectDB();
 app.listen(port, () => {
   console.log(`Listening on port ${port}`);
