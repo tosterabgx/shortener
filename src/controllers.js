@@ -1,6 +1,6 @@
-import { nanoid, validateUrl } from "./utils.js";
-import { insertLink, queryLink, addClick, deleteLinkDB } from "./db.js";
 import { baseUrl } from "./config.js";
+import { addClick, deleteLinkDB, insertLink, queryLink } from "./db.js";
+import { nanoid, validateUrl } from "./utils.js";
 
 export const shortenLink = async (req, res) => {
   const { url } = req.body ?? {};
@@ -32,10 +32,10 @@ export const shortenLink = async (req, res) => {
   });
 };
 
-export const redirectLink = async (req, res) => {
+export const getLink = async (req, res) => {
   const link = await queryLink({ code: req.params.code });
   if (!link) {
-    return res.redirect("/");
+    return res.status(404).render("notfound");
   }
 
   res.redirect(link.url);
@@ -45,7 +45,7 @@ export const redirectLink = async (req, res) => {
 export const manageLink = async (req, res) => {
   const link = await queryLink({ control: req.params.code });
   if (!link) {
-    return res.redirect("/");
+    return res.status(404).render("notfound");
   }
 
   res.render("control.ejs", {

@@ -1,7 +1,7 @@
 import express from "express";
 import { rateLimit } from "express-rate-limit";
 import { port, publicPath, viewsPath } from "./config.js";
-import { deleteLink, errorHandler, manageLink, redirectLink, shortenLink } from "./controllers.js";
+import { deleteLink, errorHandler, getLink, manageLink, shortenLink } from "./controllers.js";
 import { connectDB } from "./db.js";
 
 const app = express();
@@ -20,7 +20,7 @@ app.use(express.json());
 app.use(errorHandler);
 
 app.post("/api/shorten", limiter, shortenLink);
-app.get("/:code", limiter, redirectLink);
+app.get("/:code", limiter, getLink);
 app.get("/manage/:code", limiter, manageLink);
 app.delete("/manage/:code", limiter, deleteLink);
 
