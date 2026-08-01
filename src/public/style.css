@@ -41,6 +41,8 @@ body {
 form {
   display: flex;
   gap: 15px;
+  width: 100%;
+  justify-content: center;
 }
 
 input {

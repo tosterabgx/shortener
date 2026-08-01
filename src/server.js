@@ -12,21 +12,25 @@ const limiter = rateLimit({
   message: { message: "Too many requests, retry later" },
 });
 
+if (process.env.USE_CLOUDFLARE === true) {
+  app.set("trust proxy", 1);
+}
+
 app.set("view engine", "ejs");
 app.set("views", viewsPath);
 
 app.use(express.static(publicPath));
 app.use(express.json());
-app.use(errorHandler);
 
 app.post("/api/shorten", limiter, shortenLink);
-app.get("/:code", limiter, getLink);
+app.get("/:code", getLink);
 app.get("/manage/:code", limiter, manageLink);
 app.delete("/manage/:code", limiter, deleteLink);
 
 app.use((req, res, _) => {
   res.status(404).render("notfound");
 });
+app.use(errorHandler);
 
 await connectDB();
 app.listen(port, () => {

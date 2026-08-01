@@ -39,7 +39,7 @@ export const getLink = async (req, res) => {
   }
 
   res.redirect(link.url);
-  await addClick(link._id);
+  addClick(link._id).catch(console.error);
 };
 
 export const manageLink = async (req, res) => {
@@ -48,7 +48,7 @@ export const manageLink = async (req, res) => {
     return res.status(404).render("notfound");
   }
 
-  res.render("control.ejs", {
+  res.render("manage", {
     short: `${baseUrl}/${link.code}`,
     url: link.url,
     clicks: link.clicks,
@@ -66,5 +66,5 @@ export const deleteLink = async (req, res) => {
 
 export const errorHandler = (err, req, res, _) => {
   console.error(err);
-  res.status(500).json({ message: "Internal server error" });
+  res.sendStatus(500);
 };
