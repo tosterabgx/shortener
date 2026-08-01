@@ -29,6 +29,14 @@ body {
   font-size: 32px;
 }
 
+.nd {
+  text-decoration: none;
+}
+
+.stats {
+  font-size: 24px;
+}
+
 form {
   display: flex;
   gap: 15px;
@@ -54,6 +62,13 @@ button {
 
 button:hover {
   background: rgb(255 255 255 / 10%);
+}
+
+#output {
+  display: flex;
+  flex-direction: column;
+  gap: 1px;
+  text-align: center;
 }
 
 a {

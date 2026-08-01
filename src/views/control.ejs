@@ -1,13 +1,35 @@
-<!DOCTYPE html>
+<!doctype html>
 <html lang="en">
-<head>
-  <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Stats</title>
-  <link rel="icon" type="image/svg+xml" href="/favicon.svg" />
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Manage link</title>
+    <link rel="icon" type="image/svg+xml" href="/favicon.svg" />
     <link rel="stylesheet" href="/style.css" />
-</head>
-<body>
-  <h1><%= orig_url %></h1>
-</body>
+  </head>
+  <body>
+    <div>
+      <h1>
+        <a href="<%= short %>" class="nd" target="_blank"><%= short %></a>
+      </h1>
+      <a href="<%= url %>" class="nd" target="_blank"><%= url %></a>
+    </div>
+
+    <p class="stats">Clicks: <%= clicks %></p>
+
+    <button style="padding-inline: 30px" id="delete">Delete this link</button>
+
+    <script>
+      const btn = document.getElementById("delete");
+
+      btn.addEventListener("click", async () => {
+        const res = await fetch(window.location.href, { method: "delete" });
+        if (!res.ok) {
+          return alert("Error deleting the link. Does it exist?");
+        }
+
+        window.location.replace("/");
+      });
+    </script>
+  </body>
 </html>

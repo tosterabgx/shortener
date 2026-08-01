@@ -21,7 +21,7 @@ sender.addEventListener("submit", async (e) => {
 
     output.innerHTML = `
     <a href="${data.short}" target="_blank">${data.short}</a>
-    <a href="${data.control}" target="_blank">URL stats</a>
+    <a href="${data.control}" target="_blank">Manage your link</a>
     `;
   } catch (err) {
     output.innerHTML = `<span class="error">Error: ${err.message}</span>`;

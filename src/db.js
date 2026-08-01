@@ -32,10 +32,16 @@ export const insertLink = async (data) => {
   }
 };
 
-export const getLink = async (criteria) => {
+export const queryLink = async (criteria) => {
   const collection = client.db().collection("links");
   const link = await collection.findOne(criteria);
   return link;
+};
+
+export const deleteLinkDB = async (criteria) => {
+  const collection = client.db().collection("links");
+  const res = await collection.deleteOne(criteria);
+  return res;
 };
 
 export const addClick = async (id) => {

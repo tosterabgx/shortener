@@ -1,5 +1,5 @@
 import { nanoid, validateUrl } from "./utils.js";
-import { insertLink, getLink, addClick } from "./db.js";
+import { insertLink, queryLink, addClick, deleteLinkDB } from "./db.js";
 import { baseUrl } from "./config.js";
 
 export const shortenLink = async (req, res) => {
@@ -28,12 +28,12 @@ export const shortenLink = async (req, res) => {
 
   res.json({
     short: `${baseUrl}/${code}`,
-    control: `${baseUrl}/control/${control}`,
+    control: `${baseUrl}/manage/${control}`,
   });
 };
 
 export const redirectLink = async (req, res) => {
-  const link = await getLink({ code: req.params.code });
+  const link = await queryLink({ code: req.params.code });
   if (!link) {
     return res.redirect("/");
   }
@@ -43,12 +43,25 @@ export const redirectLink = async (req, res) => {
 };
 
 export const manageLink = async (req, res) => {
-  const link = await getLink({ control: req.params.control });
+  const link = await queryLink({ control: req.params.code });
   if (!link) {
     return res.redirect("/");
   }
 
-  res.render("control.ejs", { orig_url: link.url });
+  res.render("control.ejs", {
+    short: `${baseUrl}/${link.code}`,
+    url: link.url,
+    clicks: link.clicks,
+  });
+};
+
+export const deleteLink = async (req, res) => {
+  const r = await deleteLinkDB({ control: req.params.code });
+  if (r.deletedCount < 1) {
+    return res.sendStatus(404);
+  }
+
+  res.sendStatus(200);
 };
 
 export const errorHandler = (err, req, res, _) => {
