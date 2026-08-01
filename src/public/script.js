@@ -19,7 +19,10 @@ sender.addEventListener("submit", async (e) => {
       return;
     }
 
-    output.innerHTML = `<a href="${data.short}" target="_blank">${data.short}</a>`;
+    output.innerHTML = `
+    <a href="${data.short}" target="_blank">${data.short}</a>
+    <a href="${data.control}" target="_blank">URL stats</a>
+    `;
   } catch (err) {
     output.innerHTML = `<span class="error">Error: ${err.message}</span>`;
   }

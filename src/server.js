@@ -19,15 +19,17 @@ const port = process.env.PORT ?? 3000;
 
 const baseUrl = process.env.BASE_URL ?? `http://localhost:${port}`;
 
+app.set("view engine", "ejs");
+app.set("views", path.join(import.meta.dirname, "views"));
+
 app.use(express.static(path.join(import.meta.dirname, "public")));
-app.use(limiter);
 app.use(express.json());
 app.use((err, req, res, _) => {
   console.error(err);
   res.status(500).json({ message: "Internal server error" });
 });
 
-app.post("/api/shorten", async (req, res) => {
+app.post("/api/shorten", limiter, async (req, res) => {
   const { url } = req.body ?? {};
   if (!url) {
     return res.status(400).json({ message: "No URL provided" });
@@ -38,7 +40,7 @@ app.post("/api/shorten", async (req, res) => {
     return res.status(400).json({ message: "Invalid URL" });
   }
 
-  let code, result;
+  let code, control, result;
   let attempts = 0;
 
   do {
@@ -47,14 +49,24 @@ app.post("/api/shorten", async (req, res) => {
     }
 
     code = nanoid();
-    result = await insertLink({ code, url: valid });
+    control = nanoid(21);
+    result = await insertLink({ code, control, url: valid });
   } while (!result);
 
-  res.status(200).json({ short: `${baseUrl}/${code}` });
+  res.json({ short: `${baseUrl}/${code}`, control: `${baseUrl}/control/${control}` });
 });
 
-app.get("/:code", async (req, res) => {
-  const link = await getLink(req.params.code);
+app.get("/control/:control", limiter, async (req, res) => {
+  const link = await getLink({ control: req.params.control });
+  if (!link) {
+    return res.redirect("/");
+  }
+
+  res.render("control.ejs", { orig_url: link.url });
+});
+
+app.get("/:code", limiter, async (req, res) => {
+  const link = await getLink({ code: req.params.code });
   if (!link) {
     return res.redirect("/");
   }

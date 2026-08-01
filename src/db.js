@@ -11,6 +11,7 @@ export const connectDB = async () => {
     await client.connect();
     const collection = client.db().collection("links");
     await collection.createIndex({ code: 1 }, { unique: true });
+    await collection.createIndex({ control: 1 }, { unique: true });
 
     console.log("MongoDB connected");
   } catch (err) {
@@ -31,9 +32,9 @@ export const insertLink = async (data) => {
   }
 };
 
-export const getLink = async (code) => {
+export const getLink = async (criteria) => {
   const collection = client.db().collection("links");
-  const link = await collection.findOne({ code });
+  const link = await collection.findOne(criteria);
   return link;
 };
 
