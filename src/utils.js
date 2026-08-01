@@ -1,3 +1,8 @@
+import { customAlphabet } from "nanoid";
+
+const alphabet = "0123456789ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz";
+export const nanoid = customAlphabet(alphabet);
+
 export const validateUrl = (str) => {
   try {
     let url = str.trim();
